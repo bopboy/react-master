@@ -9,7 +9,7 @@ const Btn = styled.button`
   border:0;
   border-radius: 15px;
 `
-const Input = styled.input.attrs({ required: true })`
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
   background-color: tomato;
 `
 function App() {
