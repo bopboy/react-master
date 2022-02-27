@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { fetchCoinHistory } from '../api';
 import ApexChart from 'react-apexcharts'
+import { stableValueHash } from 'react-query/types/core/utils';
 
 interface IHistorical {
     time_open: string
@@ -18,7 +19,6 @@ interface ChartProps {
 }
 function Chart({ coinId }: ChartProps) {
     const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId))
-    console.log(data)
     return <div>{isLoading ? "Loading chart..." :
         <ApexChart
             type="line"
@@ -33,7 +33,7 @@ function Chart({ coinId }: ChartProps) {
                     toolbar: { show: false },
                     background: "transparent"
                 },
-                grid: { show: false },
+                grid: { show: true },
                 stroke: {
                     curve: "smooth",
                     width: 5
@@ -41,8 +41,20 @@ function Chart({ coinId }: ChartProps) {
                 yaxis: { show: false },
                 xaxis: {
                     axisBorder: { show: false },
-                    axisTicks: { show: false },
-                    labels: { show: false }
+                    axisTicks: { show: true },
+                    labels: { show: true },
+                    type: "datetime",
+                    categories: data?.map(price => price.time_close)
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: { gradientToColors: ["blue"], stops: [0, 100] }
+                },
+                colors: ["#0fbcf9"],
+                tooltip: {
+                    y: {
+                        formatter: value => `$${value.toFixed(2)}`
+                    }
                 }
             }}
         />}</div>;
