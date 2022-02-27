@@ -139,7 +139,9 @@ function Coin() {
         <Container>
             <Helmet><title>Coin</title></Helmet>
             <Header>
-                <Title>{state?.name ? state.name : loading ? "Loading" : infoData?.name}</Title>
+                <Link to="/">
+                    <Title>{state?.name ? state.name : loading ? "Loading" : infoData?.name}</Title>
+                </Link>
             </Header>
             {loading ? <Loader>Loading...</Loader> : (
                 <>
