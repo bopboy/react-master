@@ -16,9 +16,11 @@ const Coin = styled.li`
     border-radius: 15px;
     margin-bottom: 10px;
     a {
-        padding: 10px;
+        display: flex;
+        align-items: center;
+        padding: 5px;
         transition: color 0.2s ease-in;
-        display: block;
+        /* display: block; */
     }
     &:hover {
         a {
@@ -35,35 +37,11 @@ const Loader = styled.span`
     text-align: center;
     display: block;
 `
-const coins = [
-    {
-        id: "btc-bitcoin",
-        name: "Bitcoin",
-        symbol: "BTC",
-        rank: 1,
-        is_new: false,
-        is_active: true,
-        type: "coin",
-    },
-    {
-        id: "eth-ethereum",
-        name: "Ethereum",
-        symbol: "ETH",
-        rank: 2,
-        is_new: false,
-        is_active: true,
-        type: "coin",
-    },
-    {
-        id: "hex-hex",
-        name: "HEX",
-        symbol: "HEX",
-        rank: 3,
-        is_new: false,
-        is_active: true,
-        type: "token",
-    },
-];
+const Img = styled.img`
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+`
 interface CoinInterface {
     id: string,
     name: string,
@@ -92,12 +70,18 @@ function Coins() {
             {loading ? (<Loader>Loading...</Loader>) :
                 (<CoinsList>
                     {coins.map(coin => (
-                        <Coin key={coin.id}><Link to={`/${coin.id}`}>{coin.name} &rarr;</Link></Coin>
+                        <Coin key={coin.id}>
+                            <Link to={{ pathname: `/${coin.id}`, state: { name: coin.name } }}>
+                                <Img src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                                {coin.name} &rarr;
+                            </Link>
+                        </Coin>
                     ))}
                 </CoinsList>)
             }
-        </Container>
+        </Container >
     )
 }
 
 export default Coins;
+// Link 에 to 와 state 를 분리해서 넣어주어야 하나보다
