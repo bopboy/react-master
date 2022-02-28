@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Router from './Router';
 import { darkTheme, lightTheme } from './theme';
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -68,10 +69,9 @@ function App() {
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <button onClick={toggleDark}>Toggle Mode</button>
         <GlobalStyle />
-        <Router />
-        {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+        <Router isDark={isDark} toggleDark={toggleDark} />
+        <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>
   )
