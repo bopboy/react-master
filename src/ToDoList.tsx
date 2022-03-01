@@ -7,12 +7,17 @@ interface IForm {
     lastName: string,
     username: string,
     password: string,
-    password1: string
+    password1: string,
+    extraError: string
 }
 function ToDoList() {
-    const { register, handleSubmit, formState: { errors } } = useForm<IForm>({ defaultValues: { email: "@naver.com" } })
-    const onValid = (data: any) => {
-        console.log(data)
+    const { register, handleSubmit, formState: { errors }, setError } = useForm<IForm>({ defaultValues: { email: "@naver.com" } })
+    const onValid = (data: IForm) => {
+        if (data.password !== data.password1)
+            setError("password1",
+                { message: "Passwoerd are not the same" },
+                { shouldFocus: true })
+        // setError("extraError", { message: "Server Offline" })
     }
     console.log(errors)
     return (
@@ -26,7 +31,13 @@ function ToDoList() {
                     }
                 })} placeholder="Email" />
                 <span>{errors?.email?.message}</span>
-                <input {...register("firstName", { required: "write here" })} placeholder="First Name" />
+                <input {...register("firstName", {
+                    required: "write here",
+                    validate: {
+                        noScp: (value) => value.includes("scp") ? "no scp allowed" : true,
+                        noJon: (value) => value.includes("jon") ? "no jon allowed" : true
+                    }
+                })} placeholder="First Name" />
                 <span>{errors?.firstName?.message}</span>
                 <input {...register("lastName", { required: "write here" })} placeholder="Last Name" />
                 <span>{errors?.lastName?.message}</span>
@@ -47,6 +58,7 @@ function ToDoList() {
                 })} placeholder="Password1" />
                 <span>{errors?.password1?.message}</span>
                 <button>Add</button>
+                <span>{errors?.extraError?.message}</span>
             </form>
         </div>
     )
