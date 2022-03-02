@@ -2,6 +2,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautif
 import styled from 'styled-components'
 import { toDoState } from "./atoms"
 import { useRecoilState } from "recoil"
+import DraggableCard from "./components/DraggableCard"
 
 const Board = styled.div`
   padding: 20px 10px;
@@ -10,12 +11,7 @@ const Board = styled.div`
   border-radius: 5px;
   min-height: 200px;
 `
-const Card = styled.div`
-  border-radius: 5px;
-  margin-bottom: 5px;
-  padding:10px 10px;
-  background-color: ${props => props.theme.cardColor};
-`
+
 const Wrapper = styled.div`
   display: flex;
   max-width: 480px;
@@ -37,14 +33,14 @@ function App() {
     if (!destination) return
     setToDos(oldToDos => {
       const toDosCopy = [...oldToDos]
-      console.log("Delete item on", source.index)
-      console.log(toDosCopy)
+      // console.log("Delete item on", source.index)
+      // console.log(toDosCopy)
       toDosCopy.splice(source.index, 1)
-      console.log("Deleted item")
-      console.log(toDosCopy)
-      console.log("Put bacj", draggableId, "on ", destination.index)
+      // console.log("Deleted item")
+      // console.log(toDosCopy)
+      // console.log("Put bacj", draggableId, "on ", destination.index)
       toDosCopy.splice(destination?.index, 0, draggableId)
-      console.log(toDosCopy)
+      // console.log(toDosCopy)
       return toDosCopy
     })
   };
@@ -56,17 +52,7 @@ function App() {
             {(provided, snapshot) => (
               <Board ref={provided.innerRef} {...provided.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable draggableId={toDo} index={index} key={toDo}>
-                    {(provided) => (
-                      <Card
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {toDo}
-                      </Card>
-                    )}
-                  </Draggable>
+                  <DraggableCard key={toDo} index={index} toDo={toDo} />
                 ))
                 }
                 {provided.placeholder}
