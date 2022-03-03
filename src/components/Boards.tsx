@@ -6,13 +6,24 @@ const Wrapper = styled.div`
   padding: 20px 10px;
   background-color: ${props => props.theme.boardColor};
   border-radius: 5px;
-  min-height: 200px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
 `
 const Title = styled.div`
   text-align : center;
   font-weight: 600;
   margin-bottom: 10px;
   font-size:18px;
+`
+interface IAreaProps {
+    isDraggingFromThis: boolean,
+    isDraggingOver: boolean
+}
+const Area = styled.div<IAreaProps>`
+    background-color: ${props => props.isDraggingOver ? "pink" : props.isDraggingFromThis ? "red" : "blue"};
+    flex-grow:1;
+    transition: background-color 0.2s ease-in-out;
 `
 interface IBoardProps {
     toDos: string[],
@@ -24,8 +35,9 @@ function Board({ toDos, boardId }: IBoardProps) {
             <Title>{boardId}</Title>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (
-                    <div
-                        style={{ backgroundColor: "red" }}
+                    <Area
+                        isDraggingOver={snapshot.isDraggingOver}
+                        isDraggingFromThis={Boolean(snapshot.draggingFromThisWith)}
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
@@ -34,7 +46,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                         ))
                         }
                         {provided.placeholder}
-                    </div>
+                    </Area>
                 )}
             </Droppable>
         </Wrapper>

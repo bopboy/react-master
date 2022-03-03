@@ -7,7 +7,6 @@ export const toDoState = atom<IToDoState>({
     default: {
         "To Do": ["밥먹기", "공부하기"],
         Doing: ["운동하기", "잠자기", "퇴근하기"],
-        Done: ["놀기"],
-        "Do Later" : ["출근하기"]
+        Done: ["놀기", "출근하기"],
     }
 })

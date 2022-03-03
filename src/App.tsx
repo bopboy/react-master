@@ -8,7 +8,7 @@ const Boards = styled.div`
   display: grid;
   width:100%;
   gap:10px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 `
 const Wrapper = styled.div`
   display: flex;
