@@ -8,7 +8,7 @@ const Boards = styled.div`
   display: grid;
   width:100%;
   gap:10px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 `
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +25,9 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     console.log(info)
     const { destination, draggableId, source } = info
+    if (!destination) return
     if (destination?.droppableId === source.droppableId) {
+      // inside board movement
       setToDos(allBoards => {
         const boardCopy = [...allBoards[source.droppableId]]
         boardCopy.splice(source.index, 1)
@@ -35,7 +37,20 @@ function App() {
         }
       })
     }
-
+    if (destination.droppableId !== source.droppableId) {
+      // cross board movement
+      setToDos(allBoards => {
+        const sourceBoard = [...allBoards[source.droppableId]]
+        const destinationBoard = [...allBoards[destination.droppableId]]
+        sourceBoard.splice(source.index, 1)
+        destinationBoard.splice(destination?.index, 0, draggableId)
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard
+        }
+      })
+    }
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
