@@ -31,7 +31,8 @@ const Area = styled.div<IAreaProps>`
     padding:15px;
 `
 const Form = styled.form`
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     input {
         width:100%;
     }
