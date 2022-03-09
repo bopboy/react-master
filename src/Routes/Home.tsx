@@ -50,11 +50,25 @@ const Box = styled(motion.div) <{ bgPhoto: string }>`
     height: 200px;
     color: red;
     font-size: 36px;
+    &:first-child { transform-origin: center left;}
+    &:last-child {transform-origin: center right;}
 `
 const rowVariants = {
     hidden: { x: window.outerWidth + 5 },
     visible: { x: 0 },
     exit: { x: -window.outerWidth - 5 }
+}
+const boxVariants = {
+    normal: { scale: 1 },
+    hover: {
+        scale: 1.5,
+        y: -50,
+        transition: {
+            delay: 0.2,
+            duration: 0.2,
+            type: "tween"
+        }
+    }
 }
 const offset = 6
 function Home() {
@@ -92,6 +106,10 @@ function Home() {
                             {data?.results.slice(1).slice(offset * index, offset * index + offset).map(movie => (
                                 <Box
                                     key={movie.id}
+                                    variants={boxVariants}
+                                    whileHover="hover"
+                                    initial="normal"
+                                    transition={{ type: "tween" }}
                                     bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
                                 />
                             ))}
